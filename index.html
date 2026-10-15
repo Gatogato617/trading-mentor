@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1220">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Trading Mentor">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Trading Mentor</title>
+  <style>
+    :root{color-scheme:dark;--bg:#08111f;--panel:#111d30;--line:#24334a;--text:#edf3ff;--muted:#a6b4c9;--accent:#71a7ff;--green:#50d5a0;--red:#ff7e8a}
+    *{box-sizing:border-box} body{margin:0;background:linear-gradient(180deg,#0b1526,var(--bg));color:var(--text);font:16px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    header{padding:calc(16px + env(safe-area-inset-top)) 18px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#0b1526ee;backdrop-filter:blur(16px);z-index:3}
+    h1{font-size:21px;margin:0 0 5px} .sub{color:var(--muted);font-size:13px} main{padding:16px;max-width:760px;margin:auto;padding-bottom:36px}
+    nav{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;margin-bottom:16px} nav button{padding:10px 4px;font-size:12px}
+    button,select,input,textarea{font:inherit;color:var(--text);background:#17263c;border:1px solid #31445f;border-radius:12px;padding:12px;width:100%}
+    button{background:#244778;border-color:#3765a2;font-weight:650;cursor:pointer}button.secondary{background:#17263c}button:disabled{opacity:.5}
+    .screen{display:none}.screen.active{display:block}.card{background:linear-gradient(145deg,#121f33,#0e192a);border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:12px}
+    .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}.label{display:block;color:var(--muted);font-size:12px;margin:0 0 6px}
+    h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:0 0 8px}.status{display:inline-block;border-radius:20px;padding:5px 9px;font-size:12px;background:#25364f;color:#c9d9ef}
+    .good{color:var(--green)}.bad{color:var(--red)}.muted{color:var(--muted);font-size:13px;line-height:1.45}
+    .price{font-size:25px;font-weight:750;letter-spacing:-.5px;margin:7px 0}.meter{height:7px;background:#25364f;border-radius:9px;overflow:hidden;margin:10px 0}.meter span{display:block;height:100%;width:0;background:var(--accent)}
+    .stack{display:grid;gap:10px}.result{white-space:pre-wrap;line-height:1.5}.preview{width:100%;max-height:300px;object-fit:contain;border-radius:10px;margin-top:10px;background:#07101d}
+    .hidden{display:none!important} .foot{font-size:11px;color:var(--muted);text-align:center;padding:18px 4px}
+    @media(min-width:600px){main{padding-top:24px}.card{padding:20px}}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Trading Mentor</h1>
+  <div class="sub">Análisis técnico + contexto macro · solo análisis, sin ejecutar operaciones</div>
+</header>
+<main>
+  <nav>
+    <button data-tab="home">Inicio</button><button class="secondary" data-tab="analyze">Analizar</button><button class="secondary" data-tab="capture">Captura</button><button class="secondary" data-tab="history">Historial</button>
+  </nav>
+
+  <section id="home" class="screen active">
+    <div class="card">
+      <span class="status">PROTOTIPO · sin conexión a datos reales</span>
+      <h2 style="margin-top:13px">Tu mesa de análisis</h2>
+      <p class="muted">Selecciona un mercado y prepara un análisis. Esta versión inicial todavía no emite señales en vivo: primero conectaremos un proveedor de precios y un servicio seguro de análisis.</p>
+      <div class="row">
+        <div><label class="label" for="symbolHome">Mercado</label><select id="symbolHome"><option>EUR/USD</option><option>GBP/USD</option><option>ORO (XAU/USD)</option><option>USD/JPY</option><option>NASDAQ 100</option></select></div>
+        <div><label class="label" for="tfHome">Temporalidad</label><select id="tfHome"><option>M15</option><option>M5</option><option>H1</option><option>H4</option><option>D1</option></select></div>
+      </div>
+      <div style="margin-top:12px"><button data-goto="analyze">Preparar análisis</button></div>
+    </div>
+    <div class="card">
+      <h3>Flujo de trabajo</h3>
+      <p class="muted">1. Obtener datos recientes · 2. Confirmar tendencia y niveles · 3. Revisar calendario macroeconómico · 4. Calcular riesgo · 5. Registrar el resultado y medirlo.</p>
+    </div>
+  </section>
+
+  <section id="analyze" class="screen">
+    <div class="card">
+      <h2>Análisis del mercado</h2>
+      <div class="row">
+        <div><label class="label" for="symbol">Mercado</label><select id="symbol"><option>EUR/USD</option><option>GBP/USD</option><option>ORO (XAU/USD)</option><option>USD/JPY</option><option>NASDAQ 100</option></select></div>
+        <div><label class="label" for="tf">Temporalidad</label><select id="tf"><option>M15</option><option>M5</option><option>H1</option><option>H4</option><option>D1</option></select></div>
+      </div>
+      <div style="margin-top:10px"><label class="label" for="question">¿Qué quieres saber?</label><textarea id="question" rows="3" placeholder="Ej.: ¿Qué tendría que confirmar para considerar una compra?"></textarea></div>
+      <div style="margin-top:10px"><button id="analyzeBtn">Preparar informe</button></div>
+    </div>
+    <div class="card hidden" id="reportCard"><h2>Informe preliminar</h2><div id="report" class="result"></div></div>
+  </section>
+
+  <section id="capture" class="screen">
+    <div class="card">
+      <h2>Analizar una captura</h2>
+      <p class="muted">Elige una captura de MT5, TradingView u otra plataforma. En esta versión la imagen se muestra localmente en tu navegador; aún no se envía a una IA.</p>
+      <label class="label" for="imageInput">Seleccionar imagen</label>
+      <input id="imageInput" type="file" accept="image/*">
+      <img id="imagePreview" class="preview hidden" alt="Vista previa de la captura">
+      <div style="margin-top:10px"><label class="label" for="imageNotes">Contexto adicional</label><textarea id="imageNotes" rows="3" placeholder="Mercado, temporalidad, precio visible, dudas..."></textarea></div>
+      <button id="saveCapture" style="margin-top:10px">Guardar nota en historial</button>
+    </div>
+  </section>
+
+  <section id="history" class="screen">
+    <div class="card">
+      <h2>Historial de análisis</h2>
+      <p class="muted">Los registros se guardan en este navegador. Si borras los datos de Safari, podrían perderse; más adelante añadiremos exportación.</p>
+      <div id="historyList" class="stack"><p class="muted">Todavía no hay registros.</p></div>
+      <button class="secondary" id="clearHistory" style="margin-top:12px">Borrar historial local</button>
+    </div>
+  </section>
+  <div class="foot">Herramienta educativa. No es asesoría financiera. No garantiza resultados y no ejecuta operaciones.</div>
+</main>
+<script>
+const $=s=>document.querySelector(s);
+const tabs=[...document.querySelectorAll('[data-tab]')];
+function showTab(id){document.querySelectorAll('.screen').forEach(x=>x.classList.toggle('active',x.id===id));tabs.forEach(b=>b.classList.toggle('secondary',b.dataset.tab!==id));if(id==='history')renderHistory();}
+tabs.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.goto)));
+$('#symbolHome').addEventListener('change',()=>$('#symbol').value=$('#symbolHome').value);
+$('#tfHome').addEventListener('change',()=>$('#tf').value=$('#tfHome').value);
+function readHistory(){try{return JSON.parse(localStorage.getItem('tm-history')||'[]')}catch{return []}}
+function addHistory(item){const a=readHistory();a.unshift({...item,when:new Date().toLocaleString()});localStorage.setItem('tm-history',JSON.stringify(a.slice(0,100)));renderHistory();}
+function renderHistory(){const a=readHistory(),el=$('#historyList');el.innerHTML='';if(!a.length){el.innerHTML='<p class="muted">Todavía no hay registros.</p>';return;}a.forEach(x=>{const d=document.createElement('div');d.className='card';const h=document.createElement('h3');h.textContent=x.title;const p=document.createElement('p');p.className='muted';p.textContent=x.when;const c=document.createElement('p');c.className='result';c.textContent=x.body;d.append(h,p,c);el.append(d);});}
+$('#analyzeBtn').addEventListener('click',()=>{
+ const symbol=$('#symbol').value,tf=$('#tf').value,q=$('#question').value.trim();
+ const body=`Mercado: ${symbol}\nTemporalidad: ${tf}\nPregunta: ${q||'Análisis general'}\n\nESTADO: SIN DATOS DE MERCADO CONECTADOS.\nNo es responsable generar una señal de compra/venta sin precios recientes, velas cerradas y costos.\n\nLista de comprobación para el análisis técnico:\n• Identificar tendencia y estructura (máximos/mínimos).\n• Marcar soportes y resistencias con datos reales.\n• Esperar confirmación al cierre de la vela; no perseguir movimientos extendidos.\n• Definir nivel de invalidación y riesgo antes de una posible entrada.\n\nContexto macro:\n• Comprobar noticias y calendario económico actualizados.\n• Identificar si hay decisiones de bancos centrales o datos de alto impacto próximos.\n• No asumir que una noticia predice por sí sola la dirección.\n\nRESULTADO: ESPERAR a conectar y validar datos. Este prototipo no es una señal de trading.`;
+ $('#report').textContent=body;$('#reportCard').classList.remove('hidden');addHistory({title:`${symbol} · ${tf}`,body});
+});
+let selectedImageName='';
+$('#imageInput').addEventListener('change',e=>{const f=e.target.files?.[0];if(!f)return;selectedImageName=f.name;const img=$('#imagePreview');img.src=URL.createObjectURL(f);img.classList.remove('hidden');});
+$('#saveCapture').addEventListener('click',()=>{if(!selectedImageName&&!$('#imageNotes').value.trim()){alert('Selecciona una captura o escribe una nota primero.');return;}addHistory({title:'Nota de captura: '+(selectedImageName||'sin imagen'),body:$('#imageNotes').value.trim()||'Captura seleccionada; la imagen no se subió a un servidor.'});$('#imageNotes').value='';alert('Nota guardada en el historial local. La imagen no se ha guardado.');});
+$('#clearHistory').addEventListener('click',()=>{if(confirm('¿Borrar todos los registros locales?')){localStorage.removeItem('tm-history');renderHistory();}});
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+</script>
+</body>
+</html>
